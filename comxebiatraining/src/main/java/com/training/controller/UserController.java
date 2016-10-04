@@ -1,9 +1,15 @@
 package com.training.controller;
 
+import com.training.domain.request.ResponseStatus;
+import com.training.enums.Status;
 import com.training.model.User;
 import com.training.model.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -54,7 +60,7 @@ public class UserController {
         } catch (Exception ex) {
             return "User not found";
         }
-        return "The user id is: " + userId+" and User name is "+userName;
+        return "The user id is: " + userId + " and User name is " + userName;
     }
 
     @RequestMapping("/update")
@@ -71,5 +77,15 @@ public class UserController {
         return "User successfully updated!";
     }
 
+    @RequestMapping(value = "/mylogin", method = RequestMethod.POST)
+    public ResponseEntity<ResponseStatus> loginUser(@RequestBody User loginUser) {
+        ResponseEntity<ResponseStatus> responseEntity;
+        ResponseStatus status;
+
+        status = new ResponseStatus("login success", Status.SUCCESS);
+        responseEntity = new ResponseEntity<>(status, HttpStatus.ACCEPTED);
+
+        return responseEntity;
+    }
 
 }
